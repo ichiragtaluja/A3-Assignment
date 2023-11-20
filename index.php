@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 //connect
 $dsn = "mysql:host=localhost;dbname=A3Assignment;charset=utf8mb4";
 
@@ -6,6 +6,7 @@ $dbusername = "root";
 $dbpassword = "";
 $pdo = new PDO($dsn, $dbusername, $dbpassword);
 
+$username = $_SESSION["username"];
 
 
 //prepare
@@ -18,8 +19,6 @@ $stmt1->execute();
 
 
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -41,6 +40,7 @@ $stmt1->execute();
 
 <body>
     <header>
+
         <nav>
             <div id="logo-container">
                 <a><img id="logo" src="./images/logo/apple-touch-icon.png" /></a>
@@ -50,6 +50,19 @@ $stmt1->execute();
                 <li><a href="./about.php">About</a></li>
                 <li><a href="./contact.php">Contact</a></li>
             </ul>
+
+            <?php if ($_SESSION["loggedIn"]) { ?>
+
+                <div><a href="process-logout.php">Logout</a></div>
+
+
+            <?php } else { ?>
+
+                <div><a href="login.php">Login</a></div>
+
+            <?php } ?>
+
+
         </nav>
     </header>
     <main>
@@ -63,22 +76,44 @@ $stmt1->execute();
             </p>
         </section>
 
+        <?php
+
+        //prepare
+        $stmt5 = $pdo->prepare("SELECT * FROM `articles` WHERE  `articles`.`featured`= 1");
+
+        //execute
+        $stmt5->execute();
+
+        $row5 = $stmt5->fetch();
+
+        $articleId = $row5["article-id"];
+        $heading = $row5["heading"];
+        $imageLink = $row5["image-link"];
+        $content = $row5["content"];
+        $author = $row5["author"];
+        $imageAltText = $row5["image-alt-text"];
+        $articleLink = $row5["article-link"];
+
+
+        ?>
+
         <section id="featured-secti on">
             <article id="featured-article">
-                <img id="featured-image" src="./images/article-images/industry/industry2.webp"
-                    alt="ford motor employees with united auto workers" />
-                <p class="author">By Michael Wayland</p>
-                <h4 class="title">
-                    Ford CEO says UAW is ‘holding the deal hostage’ over EV battery
-                    plants
+                <img src="<?= $imageLink ?>" alt="<?= $imageAltText ?>" />
+                <p class="author">By <?= $author ?></p>
+                <h4 class=" title">
+                    <?= $heading ?>
                 </h4>
                 <p class="preview-text">
-                    The United Auto Workers union is holding up negotiations with Ford
-                    Motor over future electric vehicle battery plants, Ford CEO Jim
-                    Farley said during a press briefing Friday.
+                    <?= $content ?>
+
                 </p>
-                <a href="./articles/industry/article1.php">Article link</a>
+                <a href="<?= $articleLink ?>">Article link</a>
             </article>
+        </section>
+
+        <section>
+            <a href="insert-article-form.php">Insert New Article</a>
         </section>
 
         <section id="article-categories">
@@ -87,182 +122,131 @@ $stmt1->execute();
 
             <ul>
                 <?php
-        while ($row = $stmt1->fetch()) {
+                while ($row = $stmt1->fetch()) {
 
-          $category = $row["category"];
-          // echo ($category);
-
-
-        ?>
-
-                <li>
-                    <h3><?= $category ?></h3>
-                    <ul>
-
-
-                        <?php
-              //prepare 
-              $stmt2 = $pdo->prepare("SELECT * FROM `articles` INNER JOIN `categories` ON
-    `articles`.`category-id`=`categories`.`primary-key` WHERE `categories`.`category`='$category';");
-
-              //execute
-              $stmt2->execute();
-
-
-              //process
-              while ($row2 = $stmt2->fetch()) {
-                $heading = $row2["heading"];
-                $imageLink = $row2["image-link"];
-                $content = $row2["content"];
-                $author = $row2["author"];
-                $imageAltText = $row2["image-alt-text"];
-                $articleLink = $row2["article-link"];
-                // echo ($heading);
-
-              ?>
-
-                        <li>
-                            <article>
-                                <img src="<?= $imageLink ?>" alt="<?= $imageAltText ?>" />
-                                <p class="author">By <?= $author ?></p>
-                                <h4 class=" title">
-                                    <?= $heading ?>
-                                </h4>
-                                <p class="preview-text">
-                                    <?= $content ?>
-
-                                </p>
-                                <a href="<?= $articleLink ?>">Article link</a>
-                            </article>
-                        </li>
-
-
-                        <?php
-
-              }
-
-              ?>
-                    </ul>
-                </li><?php
-
-              }
-
+                    $category = $row["category"];
+                    // echo ($category);
                 ?>
 
+                    <li>
+                        <h3><?= $category ?></h3>
+                        <ul>
+                            <?php
+                            //prepare 
+                            $stmt2 = $pdo->prepare("SELECT * FROM `articles` INNER JOIN `categories` ON
+    `articles`.`category-id`=`categories`.`category-id` WHERE `categories`.`category`='$category';");
+
+                            //execute
+                            $stmt2->execute();
+
+
+                            //process
+                            while ($row2 = $stmt2->fetch()) {
+                                $articleId = $row2["article-id"];
+                                $heading = $row2["heading"];
+                                $imageLink = $row2["image-link"];
+                                $content = $row2["content"];
+                                $author = $row2["author"];
+                                $imageAltText = $row2["image-alt-text"];
+                                $articleLink = $row2["article-link"];
+
+
+
+
+                                //prepare 
+                                $stmt3 = $pdo->prepare("SELECT * FROM `likes`
+ WHERE `likes`.`articleId`='$articleId' AND `likes`.`username`='$username';");
+
+                                //execute
+                                $stmt3->execute();
+
+                                //process
+                                $row3 = $stmt3->fetch();
+
+                                $isLiked = $row3["isLiked"];
+
+
+
+
+                                //prepare 
+                                $stmt4 = $pdo->prepare("SELECT sum(`isLiked`) FROM `likes`
+                 WHERE `likes`.`articleId`='$articleId' ;");
+
+                                //execute
+                                $stmt4->execute();
+
+                                //process
+                                $row4 = $stmt4->fetch();
+
+                            ?>
+
+                                <li>
+                                    <article>
+                                        <p>Liked by: <?= ($row4[0] > 0) ? $row4[0] : '0' ?></p>
+
+
+
+                                        <?php if ($_SESSION["loggedIn"] && $_SESSION["role"] == "member") { ?>
+
+
+                                            <div>
+
+                                                <?php if ($isLiked) { ?>
+
+                                                    <a href="process-like-unlike.php?username=<?= $username ?>&articleId=<?= $articleId ?>">Unlike</a>
+                                                <?php } else { ?>
+
+                                                    <a href="process-like-unlike.php?username=<?= $username ?>&articleId=<?= $articleId ?>">Like</a>
+                                                <?php } ?>
+
+
+                                            </div>
+                                        <?php } ?>
+
+                                        <img src="<?= $imageLink ?>" alt="<?= $imageAltText ?>" />
+                                        <p class="author">By <?= $author ?></p>
+                                        <h4 class=" title">
+                                            <?= $heading ?>
+                                        </h4>
+                                        <p class="preview-text">
+                                            <?= $content ?>
+
+                                        </p>
+                                        <a href="<?= $articleLink ?>">Article link</a>
+
+
+                                        <?php if ($_SESSION["loggedIn"] && $_SESSION["role"] == "administrator") { ?>
+
+                                            <div>
+                                                <a href="feature-article-confirmation.php?articleId=<?= $articleId ?>">Set as
+                                                    featured</a>
+                                                <a href="edit-article-form.php?articleId=<?= $articleId ?>">Edit</a>
+                                                <a href="delete-article-confirmation.php?articleId=<?= $articleId ?>">Delete</a>
+                                            </div>
+
+                                        <?php } ?>
+
+
+
+
+                                    </article>
+                                </li>
+
+
+                            <?php
+
+                            }
+
+                            ?>
+                        </ul>
+                    </li><?php
+
+                        }
+
+                            ?>
+
             </ul>
-            <!-- <ul>
 
-        <li>
-          <h3>Industry</h3>
-          <ul>
-            <li>
-              <article>
-                <img src="./images/article-images/industry/industry1.webp" alt="labour union strike in Chicago" />
-                <p class="author">By Michael Wayland</p>
-                <h4 class="title">
-                  UAW Mack Trucks union members to join striking Detroit
-                  autoworkers on picket lines after voting down tentative deal
-                </h4>
-                <p class="preview-text">
-                  A year after the Biden administration took its first major
-                  step toward restricting the sale of semiconductors to China,
-                  it has begun drafting additional limits aimed at denying
-                  Beijing the technology critical to modern-day weapons.
-
-                </p>
-                <a href="./articles/industry/article1.php">Article link</a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <img src="./images/article-images/industry/industry2.webp" alt="ford motor employees with united auto workers" />
-                <p class="author">By Michael Wayland</p>
-                <h4 class="title">
-                  Ford CEO says UAW is ‘holding the deal hostage’ over EV
-                  battery plants
-                </h4>
-                <p class="preview-text">
-                  The United Auto Workers union is holding up negotiations
-                  with Ford Motor over future electric vehicle battery plants,
-                  Ford CEO Jim Farley said during a press briefing Friday.
-                </p>
-                <a href="./articles/industry/article2.php">Article link</a>
-              </article>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h3>Technical</h3>
-          <ul>
-            <li>
-              <article>
-                <img src="./images/article-images/technical/technical1.webp" alt="an image of Mr. Beast" />
-                <p class="author">By Tripp Mickle</p>
-                <h4 class="title">
-                  How the Big Chip Makers Are Pushing Back on Biden’s China
-                  Agenda
-                </h4>
-                <p class="preview-text">
-                  A year after the Biden administration took its first major
-                  step toward restricting the sale of semiconductors to China,
-                  it has begun drafting additional limits aimed at denying
-                  Beijing the technology critical to modern-day weapons.
-                </p>
-                <a href="./articles/technical/article1.php">Article link</a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <img src="./images/article-images/technical/technical2.webp" alt="an image of Mr. Beast" />
-                <p class="author">By Tom Gerken</p>
-                <h4 class="title">
-                  MrBeast and BBC stars used in deepfake scam videos
-                </h4>
-                <p class="preview-text">
-                  Deepfakes use artificial intelligence (AI) to make a video
-                  of someone by manipulating their face or body. One such
-                  video appeared on TikTok this week, claiming to be MrBeast
-                  offering people new iPhones for $2 (£1.65).
-                </p>
-                <a href="./articles/technical/article2.php">Article link</a>
-              </article>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <h3>Career</h3>
-          <ul>
-            <li>
-              <article>
-                <img src="./images/article-images/career/career1.jpeg" alt="An old women walking her dog" />
-                <p class="author">By Maryalene LaPonsie</p>
-                <h4 class="title">10 Fun Part-Time Jobs for Retirement</h4>
-                <p class="preview-text">
-                  Retirement is often portrayed as lazy days at home broken up
-                  by afternoons spent on the golf course. However, not
-                  everyone wants to spend their golden years unemployed.
-                </p>
-                <a href="./articles/career/article1.php">Article link</a>
-              </article>
-            </li>
-            <li>
-              <article>
-                <img src="./images/article-images/career/career2.webp" alt="Group of factory workers standing" />
-                <p class="author">By Megan Carnegie</p>
-                <h4 class="title">
-                  Why the 'back-up career' is moving further out of reach
-                </h4>
-                <p class="preview-text">
-                  Chris has been in the animation industry for more than a
-                  decade, and still gets excited about each week’s
-                  assignments.
-                </p>
-                ? <a href="./articles/career/article2.php">Article link</a>
-              </article>
-            </li>
-          </ul>
-        </li>
-      </ul> -->
         </section>
 
         <section id="visitors-section">
@@ -299,10 +283,7 @@ $stmt1->execute();
         </section>
 
         <section id="video-section">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/w_JEezynhrc?si=cXCgwfGzTB4g9z8y"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/w_JEezynhrc?si=cXCgwfGzTB4g9z8y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </section>
     </main>
     <footer id="cookies"><a href="#">Accept cookies</a></footer>

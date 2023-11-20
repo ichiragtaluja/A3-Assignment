@@ -1,3 +1,23 @@
+<?php session_start();
+//connect
+$dsn = "mysql:host=localhost;dbname=A3Assignment;charset=utf8mb4";
+
+$dbusername = "root";
+$dbpassword = "";
+$pdo = new PDO($dsn, $dbusername, $dbpassword);
+
+//prepare
+$stmt = $pdo->prepare("SELECT * FROM `about-page`");
+
+//execute
+$stmt->execute();
+
+//process
+$row = $stmt->fetch();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,17 +54,21 @@
     <main>
         <section>
             <p>
-                Welcome to IMM News Network, your gateway to a world of curated and
-                personalized information. We've been dedicated to delivering relevant,
-                reliable, and engaging content right to your fingertips.
+                <?= $row["content"] ?>
             </p>
-            <p>
-                Our Mission At IMM News Network, we're committed to revolutionizing
-                the way you consume information. Our goal is to provide a seamless and
-                enriching experience that empowers you with the knowledge you seek,
-                tailored to your interests and preferences. We believe that
-                well-informed individuals are the key to a brighter future.
-            </p>
+
+            <?php if ($_SESSION["loggedIn"] && $_SESSION["role"]  == "administrator") { ?>
+
+
+                <a href="edit-about-form.php">Edit text</a>
+
+            <?php } ?>
+
+
+
+
+
+
         </section>
     </main>
     <footer id="cookies"><a href="#">Accept cookies</a></footer>

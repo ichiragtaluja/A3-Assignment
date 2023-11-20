@@ -36,8 +36,7 @@
             <p>Author: Tom Gerken</p>
         </section>
         <section>
-            <img class="article-image-section" src="./../../images/article-images/technical/technical2.webp"
-                alt="an image of Mr. Beast" />
+            <img class="article-image-section" src="./../../images/article-images/technical/technical2.webp" alt="an image of Mr. Beast" />
         </section>
         <section class="article-text-section">
             <p>

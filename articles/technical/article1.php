@@ -49,19 +49,19 @@
         modern-day weapons. But in recent months, its progress has been slowed
         as American chip companies have pushed back with a blunt warning:
         Cutting sales to China would gut their businesses and derail the
-        administration’s plan to build new semiconductor factories in the
+        administrations plan to build new semiconductor factories in the
         United States. Since July, Nvidia, Intel and Qualcomm, three of the
-        world’s largest chip makers, have pressed their case that cracking
+        worlds largest chip makers, have pressed their case that cracking
         down on China would have unintended consequences.
       </p>
       <p>
-        They have challenged the White House’s national security wisdom in
+        They have challenged the White Houses national security wisdom in
         meetings with officials like Secretary of State Antony J. Blinken and
         Commerce Secretary Gina M. Raimondo, wooed think tanks and urged
         leaders across Washington to reconsider additional chip controls,
         according to interviews with two dozen officials across the
         government, industry and policy organizations. The companies have
-        warned that a U.S. pullback could accelerate China’s development of an
+        warned that a U.S. pullback could accelerate Chinas development of an
         independent chip industry, paving the way to a world dominated by
         Chinese-created chips rather than American-designed chips.
       </p>

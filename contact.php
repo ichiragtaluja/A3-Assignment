@@ -1,3 +1,7 @@
+<?php session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,8 +48,7 @@
                     <legend>Category interests</legend>
                     <label for="industry">Industry</label><input name="interests[]" value="industry" type="checkbox" />
 
-                    <label for="technical">Technical</label><input name="interests[]" value="technical"
-                        type="checkbox" />
+                    <label for="technical">Technical</label><input name="interests[]" value="technical" type="checkbox" />
 
                     <label for="career">Career</label><input name="interests[]" value="career" type="checkbox" />
                 </fieldset>
@@ -62,6 +65,17 @@
                 <input type="submit" />
             </form>
         </section>
+
+
+
+        <?php if ($_SESSION["loggedIn"] && $_SESSION["role"]  == "administrator") { ?>
+
+            <a href="contact-form-list.php">View all contact form submissions</a>
+        <?php } ?>
+
+
+
+
     </main>
     <footer id="cookies"><a href="#">Accept cookies</a></footer>
 </body>

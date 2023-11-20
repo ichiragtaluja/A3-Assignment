@@ -1,6 +1,4 @@
-<?php
-
-
+<?php session_start();
 
 $name = $_POST["name"];
 $email = $_POST["email"];
@@ -18,7 +16,7 @@ $pdo = new PDO($dsn, $dbusername, $dbpassword);
 
 //prepare
 foreach ($interests as $key => $interest) {
-    $stmt = $pdo->prepare("INSERT INTO `contact-us-form` (`primary-key`, `name`, `email`, `category-interest`, `role`)
+    $stmt = $pdo->prepare("INSERT INTO `contact-us-form` (`person-id`, `name`, `email`, `category-interest`, `role`)
 VALUES (NULL, '$name', '$email', '$interest', '$role');");
 
     //execute
