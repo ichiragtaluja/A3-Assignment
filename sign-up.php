@@ -1,16 +1,24 @@
 <?php
-
 ?>
-<h1>Sign-up Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-<form action="process-sign-up.php" method="POST">
+<body>
+    <?php include("header.php"); ?>
+    <main>
+        <h1>Sign-up Page</h1>
+        <form action="process-sign-up.php" method="POST">
+            <label>First Name: <input required type="text" name="fName" /></label>
+            <label>Last Name: <input required type="text" name="lName" /></label>
+            <label>Email: <input required type="email" name="email" /></label>
+            <label>Username: <input required type="text" name="username" /></label>
+            <label>Password: <input required type="password" name="password" /></label>
+            <input type="submit" value="Sign-up">
+        </form>
+        <a href="login.php">Login</a>
+    </main>
+    <?php include("footer.php"); ?>
+</body>
 
-    <label>First Name: <input required type="text" name="fName" /></label>
-    <label>Last Name: <input required type="text" name="lName" /></label>
-    <label>Email: <input required type="email" name="email" /></label>
-    <label>Username: <input required type="text" name="username" /></label>
-    <label>Password: <input required type="password" name="password" /></label>
-
-    <input type="submit" value="Sign-up">
-</form>
-<a href="login.php">Login</a>
+</html>

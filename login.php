@@ -1,13 +1,22 @@
 <?php
-
 ?>
-<h1>Login Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-<form action="process-login.php" method="POST">
+<body>
+    <?php include("header.php"); ?>
+    <main>
+        <h1>Login Page</h1>
+        <form action="process-login.php" method="POST">
 
-    <label>Username: <input type="text" name="username" /></label>
-    <label>Password: <input type="password" name="password" /></label>
-    <input type="submit" value="login">
-</form>
+            <label>Username: <input type="text" name="username" /></label>
+            <label>Password: <input type="password" name="password" /></label>
+            <input type="submit" value="login">
+        </form>
+        <a href="login.php">forgot password?</a>
+    </main>
+    <?php include("footer.php"); ?>
+</body>
 
-<a href="login.php">forgot password?</a>
+</html>

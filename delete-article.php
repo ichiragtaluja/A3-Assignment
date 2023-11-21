@@ -11,16 +11,28 @@ $pdo = new PDO($dsn, $dbusername, $dbpassword);
 
 //prepare
 $stmt = $pdo->prepare("DELETE FROM articles WHERE `articles`.`article-id` = $articleId");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-//execute
+<body>
+    <?php include("header.php"); ?>
+    <main>
 
-if ($stmt->execute()) {
+        <?php if ($stmt->execute()) {
+        ?>
+        <p>Article <?= $articleId ?> deleted</p>
+        <a href="index.php">Go to home page</a>
+        <?php
+        } else {
+        ?>
+        <p>Could not delete article</p>
+        <a href="index.php">Go to home page</a>
+        <?php } ?>
+    </main>
 
-?><p>Article <?= $articleId ?> deleted</p> <?php
-                                        } else {
+    <?php include("footer.php"); ?>
+</body>
 
-                                            ?> <p>Coul not delete article</p><?php
-                                                                            }
-
-                                                                                ?>
-<a href="index.php">Go to home page</a>
+</html>

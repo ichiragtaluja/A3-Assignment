@@ -10,10 +10,6 @@ $categoryId = $_POST["category-id"];
 $featured = ($_POST["featured"] == 1) ? 1 : 0;
 $featuredVal = $_POST["featured"];
 
-
-// $featured = 0;
-
-
 //connect
 $dsn = "mysql:host=localhost;dbname=A3Assignment;charset=utf8mb4";
 
@@ -26,13 +22,36 @@ $stmt = $pdo->prepare("INSERT INTO `articles` (`article-id`, `heading`, `image-l
 
 //execute
 if ($stmt->execute()) {
-
-?><p>Article inserted</p> <?php
-                        } else {
-
-                            ?> <p>Coul not insert article</p><?php
-                                                            }
-
-                                                                ?>
-<a href="index.php">Go to home page</a>
 ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <?php include("head.php"); ?>
+
+    <body>
+        <?php include("header.php"); ?>
+        <main>
+            <p>Article inserted</p>
+            <a href="index.php">Go to home page</a>
+        </main>
+        <?php include("footer.php"); ?>
+    </body>
+
+    </html>
+<?php
+} else {
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <?php include("head.php"); ?>
+
+    <body>
+        <?php include("header.php"); ?>
+        <main>
+            <p>Could not insert article</p>
+            <a href="index.php">Go to home page</a>
+        </main>
+        <?php include("footer.php"); ?>
+    </body>
+
+    </html>
+<?php } ?>

@@ -18,30 +18,32 @@ if ($_SESSION["loggedIn"] && $_SESSION["role"]  == "administrator") {
 
     //process
 ?>
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <h1>Contact us form list</h1>
+    <?php include("head.php"); ?>
 
-    <ul>
+    <body>
+        <?php include("header.php"); ?>
+        <main>
+            <h1>Contact us form list</h1>
+            <ul>
+                <?php while ($row = $stmt->fetch()) { ?>
+                    <li>
+                        <p><?= $row["name"] ?></p>
+                        <p><?= $row["email"] ?></p>
+                        <p><?= $row["category-interest"] ?></p>
+                        <p><?= $row["role"] ?></p>
+                    </li>
+                <?php } ?>
+            </ul>
+            <a href="index.php">Go to home</a>
+        </main>
+        <?php include("footer.php"); ?>
+    </body>
 
-        <?php while ($row = $stmt->fetch()) { ?>
-
-            <li>
-                <p><?= $row["name"] ?></p>
-                <p><?= $row["email"] ?></p>
-                <p><?= $row["category-interest"] ?></p>
-                <p><?= $row["role"] ?></p>
-
-            </li>
-        <?php } ?>
-
-    </ul>
-
-    <a href="index.php">Go to home</a>
-
-
+    </html>
 <?php } else {
-
     include("login.php");
 }
-
 ?>

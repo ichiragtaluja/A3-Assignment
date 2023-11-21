@@ -3,10 +3,6 @@
 $username = $_GET["username"];
 $articleId = $_GET["articleId"];
 
-
-
-
-
 //connect
 $dsn = "mysql:host=localhost;dbname=A3Assignment;charset=utf8mb4";
 
@@ -17,14 +13,11 @@ $pdo = new PDO($dsn, $dbusername, $dbpassword);
 // prepare
 $stmt = $pdo->prepare("SELECT * FROM `likes` WHERE `likes`.`username` ='$username'  AND `likes`.`articleId` = '$articleId';");
 
-
 //execute
 $stmt->execute();
 
 if ($row = $stmt->fetch()) {
-
     if ($row["isLiked"]) {
-
         $likeId = $row["likeId"];
 
         //prepare
@@ -32,10 +25,8 @@ if ($row = $stmt->fetch()) {
 
         //execute
         $stmt->execute();
-
         include("index.php");
     } else {
-
         $likeId = $row["likeId"];
 
         //prepare
@@ -43,7 +34,6 @@ if ($row = $stmt->fetch()) {
 
         //execute
         $stmt->execute();
-
         include("index.php");
     }
 } else {
@@ -52,15 +42,5 @@ if ($row = $stmt->fetch()) {
 
     //execute
     $stmt->execute();
-
     include("index.php");
 }
-
-
-?>
-
-
-
-
-<p><?= $username ?></p>
-<p><?= $articleId ?></p>

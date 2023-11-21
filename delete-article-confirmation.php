@@ -1,5 +1,4 @@
 <?php
-
 $articleId = $_GET["articleId"];
 
 //connect
@@ -24,27 +23,35 @@ $content = $row["content"];
 $author = $row["author"];
 $imageAltText = $row["image-alt-text"];
 $articleLink = $row["article-link"];
-
 ?>
-<h1>Delete article confirmation page</h1>
-<p>Are you sure you want to delete this article?</p>
 
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-<article>
-    <img src="<?= $imageLink ?>" alt="<?= $imageAltText ?>" />
-    <p class="author">By <?= $author ?></p>
-    <h4 class=" title">
-        <?= $heading ?>
-    </h4>
-    <p class="preview-text">
-        <?= $content ?>
+<body>
+    <?php include("header.php"); ?>
+    <main>
+        <h1>Delete article confirmation page</h1>
+        <p>Are you sure you want to delete this article?</p>
+        <form action="delete-article.php" method="POST">
+            <input type="hidden" name="articleId" value="<?= $row["article-id"] ?>" />
+            <input type="submit" value="yes" />
+        </form>
+        <article>
+            <img src="<?= $imageLink ?>" alt="<?= $imageAltText ?>" />
+            <p class="author">By <?= $author ?></p>
+            <h4 class=" title">
+                <?= $heading ?>
+            </h4>
+            <p class="preview-text">
+                <?= $content ?>
+            </p>
+            <a href="<?= $articleLink ?>">Article link</a>
+        </article>
+        <a href="index.php">No</a>
+    </main>
+    <?php include("footer.php"); ?>
+</body>
 
-    </p>
-    <a href="<?= $articleLink ?>">Article link</a>
-
-</article>
-<a href="index.php">No</a>
-<form action="delete-article.php" method="POST">
-    <input type="hidden" name="articleId" value="<?= $row["article-id"] ?>" />
-    <input type="submit" value="yes" />
-</form>
+</html>

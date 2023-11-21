@@ -4,8 +4,20 @@ session_destroy();
 $role = $_SESSION["role"];
 ?>
 
-<p>You have logged out.</p>
-<a href="login.php">Login here </a>
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-<p>Go to home.</p>
-<a href="index.php">Home</a>
+<body>
+    <?php include("header.php"); ?>
+    <main>
+        <p>You have logged out.</p>
+        <a href="login.php">Login here </a>
+
+        <p>Go to home.</p>
+        <a href="index.php">Home</a>
+    </main>
+    <?php include("footer.php"); ?>
+</body>
+
+</html>

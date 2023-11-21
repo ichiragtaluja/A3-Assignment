@@ -5,8 +5,6 @@ $email = $_POST["email"];
 $interests = $_POST["interests"];
 $role = $_POST["role"];
 
-
-
 //connect
 $dsn = "mysql:host=localhost;dbname=A3Assignment;charset=utf8mb4";
 
@@ -22,10 +20,18 @@ VALUES (NULL, '$name', '$email', '$interest', '$role');");
     //execute
     $stmt->execute();
 }
-
-
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<?php include("head.php"); ?>
 
-<p>Thank-you <?= $name ?> for reaching out. We will get back to you shortly.</p>
+<body>
+    <?php include("header.php"); ?>
+    <main>
+        <p>Thank-you <?= $name ?> for reaching out. We will get back to you shortly.</p>
+        <a href="./index.php">Go to home</a>
+    </main>
+    <?php include("footer.php"); ?>
+</body>
 
-<a href="./index.php">Go to home</a>
+</html>
